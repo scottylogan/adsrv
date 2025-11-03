@@ -1,4 +1,4 @@
-module code.stanford.edu/SLAC-IAM/ldapsrv
+module github.com/scottylogan/ldapsrv
 
 go 1.25.2
 
