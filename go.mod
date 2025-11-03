@@ -1,4 +1,4 @@
-module github.com/scottylogan/adsrv
+module code.stanford.edu/slac-iam-pub/adsrv
 
 go 1.25.2
 
