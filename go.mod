@@ -1,4 +1,4 @@
-module github.com/scottylogan/ldapsrv
+module github.com/scottylogan/adsrv
 
 go 1.25.2
 
