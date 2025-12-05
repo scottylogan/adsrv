@@ -48,3 +48,11 @@ func TestDialFail(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestMakeSiteDomain(t *testing.T) {
+	got := makeSiteDomain("win.slac.stanford.edu", "SLAC")
+	if got != "SLAC._sites.win.slac.stanford.edu" {
+		t.Logf("Expected SLAC._sites.win.slac.stanford.edu, got %v", got)
+		t.Fail()
+	}
+}

@@ -50,6 +50,18 @@ func GetDomain(domain string) (*Domain, error) {
 	return new(domain, cname, srv), nil
 }
 
+func makeSiteDomain(domain, site string) string {
+	return site + "._sites." + domain
+}
+
+func GetDomainSite(domain, site string) (*Domain, error) {
+	cname, srv, err := net.LookupSRV(service, proto, makeSiteDomain(domain, site))
+	if err != nil {
+		return nil, err
+	}
+	return new(domain, cname, srv), nil
+}
+
 func (d *Domain) Dial(opts ...ldap.DialOpt) (*ldap.Conn, error) {
 
 	ldapUrl := &url.URL{Scheme: "ldap"}
