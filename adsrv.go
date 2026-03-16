@@ -50,6 +50,14 @@ func GetDomain(domain string) (*Domain, error) {
 	return new(domain, cname, srv), nil
 }
 
+func GetDomainPDC(domain string) (*Domain, error) {
+	cname, srv, err := net.LookupSRV(service, proto, "pdc._msdcs." + domain)
+	if err != nil {
+		return nil, err
+	}
+	return new(domain, cname, srv), nil
+}
+
 func makeSiteDomain(domain, site string) string {
 	return site + "._sites." + domain
 }
