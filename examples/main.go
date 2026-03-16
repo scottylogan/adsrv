@@ -8,16 +8,41 @@ import (
 )
 
 func main() {
-	if len(os.Args) != 2 {
-		panic("Usage: adsrv realm")
+	if len(os.Args) < 2 {
+		panic("Usage: adsrv realm [site]")
 	}
 
-	domain, err := adsrv.GetDomain(os.Args[1])
+	realm := os.Args[1]
+
+	domain, err := adsrv.GetDomainPDC(realm)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf("cname: %s\n", domain.CName)
+
+	fmt.Println("PDC")
 	for _, srv := range domain.SRV {
-		fmt.Printf("%s %d %d %d\n", srv.Target, srv.Port, srv.Priority, srv.Weight)
+		fmt.Printf("  %s %d %d %d\n", srv.Target, srv.Port, srv.Priority, srv.Weight)
 	}
+
+	domain, err = adsrv.GetDomain(realm)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("ALL")
+	for _, srv := range domain.SRV {
+		fmt.Printf("  %s %d %d %d\n", srv.Target, srv.Port, srv.Priority, srv.Weight)
+	}
+
+	for _, site := range os.Args[2:] {
+		domain, err = adsrv.GetDomainSite(realm, site)
+
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("SITE:", site)
+		for _, srv := range domain.SRV {
+			fmt.Printf("  %s %d %d %d\n", srv.Target, srv.Port, srv.Priority, srv.Weight)
+		}
+	}
+
 }
